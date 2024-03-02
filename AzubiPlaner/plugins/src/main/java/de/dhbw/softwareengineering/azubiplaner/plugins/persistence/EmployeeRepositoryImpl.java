@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
 import de.dhbw.softwareengineering.azubiplaner.domain.repositories.EmployeeRepository;
+import de.dhbw.softwareengineering.azubiplaner.plugins.persistence.spring.SpringEmployeeRepository;
 
 
 @Repository

@@ -5,19 +5,25 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity.Role;
+import de.dhbw.softwareengineering.azubiplaner.domain.exceptions.NotAzubiException;
+
 @Entity
 public class TeamchefEntity {
 
 	@Column
-	private EmployeeEntity teamchef;
+	private EmployeeEntity teamchefEmployee;
 	
 	@Column
 	private LocalDateTime lastChangedAt;
 
+	@Column
+	private EmployeeEntity assignedBy;
 
-	public TeamchefEntity(EmployeeEntity teamchef, LocalDateTime lastChangedAt) {
+	public TeamchefEntity(EmployeeEntity teamchefEmployee, LocalDateTime lastChangedAt,EmployeeEntity assignedBy) throws NotAzubiException {
 		super();
-		this.teamchef = teamchef;
+		setTeamchefEmployee(teamchefEmployee);
+		this.assignedBy = assignedBy;
 		this.lastChangedAt = lastChangedAt;
 	}
 
@@ -25,8 +31,8 @@ public class TeamchefEntity {
 		super();
 	}
 
-	public EmployeeEntity getTeamchef() {
-		return teamchef;
+	public EmployeeEntity getTeamchefEmployee() {
+		return teamchefEmployee;
 	}
 
 	
@@ -38,8 +44,17 @@ public class TeamchefEntity {
 		this.lastChangedAt = lastChangedAt;
 	}
 
-	public void setTeamchef(EmployeeEntity teamchef) {
-		this.teamchef = teamchef;
+	public EmployeeEntity getAssignedBy() {
+		return assignedBy;
+	}
+
+	public void setAssignedBy(EmployeeEntity assignedBy) {
+		this.assignedBy = assignedBy;
+	}
+
+	public void setTeamchefEmployee(EmployeeEntity teamchefEmployee) throws NotAzubiException {
+		if(teamchefEmployee.getRole() == null || teamchefEmployee.getRole() != Role.AZUBI) throw new NotAzubiException(teamchefEmployee);
+		this.teamchefEmployee = teamchefEmployee;
 	}
 	
 	
