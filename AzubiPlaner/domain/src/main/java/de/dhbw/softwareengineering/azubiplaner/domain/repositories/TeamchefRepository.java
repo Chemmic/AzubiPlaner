@@ -1,5 +1,7 @@
 package de.dhbw.softwareengineering.azubiplaner.domain.repositories;
 
+import java.util.Optional;
+
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.TeamchefEntity;
 
 public interface TeamchefRepository {
@@ -7,7 +9,7 @@ public interface TeamchefRepository {
 	//return das Teamchef entity nach speichern in der Datenbank
 	TeamchefEntity setTeamchef(TeamchefEntity teamchef);
 	
-	TeamchefEntity getTeamchef();
+	Optional<TeamchefEntity> getTeamchef();
 	
-	void deleteTeamchef();
+	void deleteTeamchefEntry(Long id);
 }

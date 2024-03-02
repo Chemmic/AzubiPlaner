@@ -12,10 +12,14 @@ public class TeamchefService {
 	
 	@Autowired
     private TeamchefRepository teamchefRepository;
+	
+	@Autowired
+	private HistoryService historyService;
     
 
 	public TeamchefEntity updateTeamchef(TeamchefEntity newTeamchef) {
 		//TODO: Alten Teamchef in History speichern
+		historyService.saveTeamchefUpdate(newTeamchef);
 		teamchefRepository.deleteTeamchef();
 		return teamchefRepository.setTeamchef(newTeamchef);
 	}

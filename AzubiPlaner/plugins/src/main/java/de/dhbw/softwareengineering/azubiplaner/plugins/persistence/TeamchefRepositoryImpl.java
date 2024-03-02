@@ -1,5 +1,7 @@
 package de.dhbw.softwareengineering.azubiplaner.plugins.persistence;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,13 +21,13 @@ public class TeamchefRepositoryImpl implements TeamchefRepository {
 	}
 
 	@Override
-	public TeamchefEntity getTeamchef() {
-		return springTeamchefRepository.findAll().get(0);
+	public Optional<TeamchefEntity> getTeamchef() {
+		return springTeamchefRepository.findFirstByOrderByChangedAtDesc();
 	}
 
 	@Override
-	public void deleteTeamchef() {
-		springTeamchefRepository.deleteAll();
+	public void deleteTeamchefEntry(Long id) {
+		springTeamchefRepository.deleteById(id);
 		
 	}
 
