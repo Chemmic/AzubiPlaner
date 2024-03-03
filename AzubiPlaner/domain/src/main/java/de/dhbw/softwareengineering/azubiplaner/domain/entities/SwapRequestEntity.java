@@ -1,19 +1,30 @@
 package de.dhbw.softwareengineering.azubiplaner.domain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "SwapRequest")
 public class SwapRequestEntity {
 	
-	@Column
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+    @ManyToOne
+    @JoinColumn(name = "requester_id")
 	private KuechendienstDayEntity requester;
 	
-	@Column
+    @ManyToOne
+    @JoinColumn(name = "responder_id")
 	private KuechendienstDayEntity responder;
 	
 	@Column
@@ -21,13 +32,9 @@ public class SwapRequestEntity {
 	private Status status;
 	
 	
-	
-	
 	public SwapRequestEntity() {
 		super();
 	}
-
-
 
 
 	public SwapRequestEntity(KuechendienstDayEntity requester, KuechendienstDayEntity responder, Status status) {

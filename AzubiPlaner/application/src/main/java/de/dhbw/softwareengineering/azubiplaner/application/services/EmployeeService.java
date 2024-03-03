@@ -3,13 +3,12 @@ package de.dhbw.softwareengineering.azubiplaner.application.services;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
 import de.dhbw.softwareengineering.azubiplaner.domain.repositories.EmployeeRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EmployeeService {

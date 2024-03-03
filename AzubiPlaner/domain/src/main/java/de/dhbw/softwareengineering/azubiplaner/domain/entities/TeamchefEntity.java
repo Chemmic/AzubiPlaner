@@ -2,15 +2,15 @@ package de.dhbw.softwareengineering.azubiplaner.domain.entities;
 
 import java.time.LocalDateTime;
 
-import javax.annotation.processing.Generated;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity.Role;
 import de.dhbw.softwareengineering.azubiplaner.domain.exceptions.NotAzubiException;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class TeamchefEntity {
@@ -19,13 +19,15 @@ public class TeamchefEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column
+    @ManyToOne
+    @JoinColumn(name = "teamchefEmployee_id")
 	private EmployeeEntity teamchefEmployee;
 	
 	@Column
 	private LocalDateTime changedAt;
 
-	@Column
+    @ManyToOne
+    @JoinColumn(name = "assignedBy_id")
 	private EmployeeEntity assignedBy;
 
 	public TeamchefEntity(EmployeeEntity teamchefEmployee, LocalDateTime changedAt,EmployeeEntity assignedBy) throws NotAzubiException {

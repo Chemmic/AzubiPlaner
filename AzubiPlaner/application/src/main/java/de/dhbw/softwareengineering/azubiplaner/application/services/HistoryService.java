@@ -7,9 +7,5 @@ import de.dhbw.softwareengineering.azubiplaner.domain.entities.TeamchefEntity;
 @Service
 public class HistoryService {
 
-	public void saveTeamchefUpdate(TeamchefEntity newTeamchef) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
