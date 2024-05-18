@@ -1,10 +1,9 @@
-package de.dhbw.softwareengineering.azubiplaner.application.rules;
+package de.dhbw.softwareengineering.azubiplaner.application.helpObjects;
 
 import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.dhbw.softwareengineering.azubiplaner.application.services.HelpEntityObject;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
 
 public class Schedule {

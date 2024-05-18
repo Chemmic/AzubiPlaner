@@ -1,5 +1,6 @@
 package de.dhbw.softwareengineering.azubiplaner.plugins.persistence;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,23 @@ public class EmployeeRepositoryImpl  implements EmployeeRepository  {
 	@Override
 	public void deleteById(Long id) {
 		springEmployeeRepository.deleteById(id);
-		
 	}
 
 	@Override
 	public Optional<EmployeeEntity> getById(Long id) {
 		// TODO Auto-generated method stub
 		return springEmployeeRepository.findById(id);
+	}
+
+	@Override
+	public EmployeeEntity save(EmployeeEntity e) {
+		return springEmployeeRepository.save(e);
+	}
+
+	@Override
+	public List<EmployeeEntity> all() {
+		// TODO Auto-generated method stub
+		return springEmployeeRepository.findAll();
 	}
 
 

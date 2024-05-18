@@ -1,5 +1,7 @@
 package de.dhbw.softwareengineering.azubiplaner.domain.entities;
 
+import java.util.regex.Pattern;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,8 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,18 +29,44 @@ public class EmployeeEntity {
 	@Column
 	private String tuleapId;
 	
+	@Column
+	private String email;
+	
 	public EmployeeEntity() {
 		
 	}
 	
-	public EmployeeEntity(String username, Role role, String tuleapId) {
-		super();
+	public EmployeeEntity(String username, Role role, String tuleapId, String email) {
 		this.username = username;
 		this.role = role;
 		this.tuleapId = tuleapId;
+		setEmail(email);
 	}
 
 
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		/*
+		 * Domain Service: Checking for valid Email
+		 * allows numeric values from 0 to 9.
+		   Both uppercase and lowercase letters from a to z are allowed.
+    	   Allowed are underscore “_”, hyphen “-“, and dot “.”
+		   Dot isn’t allowed at the start and end of the local part.
+		   Consecutive dots aren’t allowed.
+		   For the local part, a maximum of 64 characters are allowed.
+		 */
+		if(Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$")
+				.matcher(email)
+				.matches()) {
+			this.email = email;
+		} else {
+			
+		}
+	}
 
 	public Long getId() {
 		return id;

@@ -13,7 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 
-// Eventuell OV?
+// Eventuell VO?
 @Entity
 public class KuechendienstDayEntity {
 	
@@ -23,7 +23,7 @@ public class KuechendienstDayEntity {
 	
 	@Column
 	@Enumerated(EnumType.STRING)
-	private DayOfWeek day;
+	private DayOfWeek dayOfWeek;
 	
     @ManyToOne
     @JoinColumn(name = "responsibleEmployee_id")
@@ -31,9 +31,9 @@ public class KuechendienstDayEntity {
 	
 	
 	
-	public KuechendienstDayEntity(DayOfWeek day, EmployeeEntity responsibleEmployee) {
+	public KuechendienstDayEntity(DayOfWeek dayOfWeek, EmployeeEntity responsibleEmployee) {
 		super();
-		this.day = day;
+		this.dayOfWeek = dayOfWeek;
 		this.responsibleEmployee = responsibleEmployee;
 	}
 
@@ -45,14 +45,14 @@ public class KuechendienstDayEntity {
 
 
 
-	public DayOfWeek getDay() {
-		return day;
+	public DayOfWeek getDayOfWeek() {
+		return dayOfWeek;
 	}
 
 
 
-	public void setDay(DayOfWeek day) {
-		this.day = day;
+	public void setDayOfWeek(DayOfWeek dayOfWeek) {
+		this.dayOfWeek = dayOfWeek;
 	}
 
 

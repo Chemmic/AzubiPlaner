@@ -1,4 +1,4 @@
-package de.dhbw.softwareengineering.azubiplaner.application.services;
+package de.dhbw.softwareengineering.azubiplaner.application.helpObjects;
 
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
 

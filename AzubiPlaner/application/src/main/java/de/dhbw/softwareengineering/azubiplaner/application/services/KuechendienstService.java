@@ -12,10 +12,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.HelpEntityObject;
+import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.Schedule;
 import de.dhbw.softwareengineering.azubiplaner.application.rules.BaseRule;
 import de.dhbw.softwareengineering.azubiplaner.application.rules.FridayRule;
 import de.dhbw.softwareengineering.azubiplaner.application.rules.NonConsecutiveDaysRule;
-import de.dhbw.softwareengineering.azubiplaner.application.rules.Schedule;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstDayEntity;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
@@ -23,50 +24,70 @@ import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEnti
 @Service
 public class KuechendienstService {
 
-	List<HelpEntityObject> candidates;
 	List<BaseRule> rulesToApply = new ArrayList<>( Arrays.asList(new NonConsecutiveDaysRule(), new FridayRule()));
-	Map<DayOfWeek, List<EmployeeEntity>> mapForDaysCandidates = new HashMap<>();
+	Map<DayOfWeek, List<EmployeeEntity>> candidatesForSpecificDay;
 	Schedule schedule;
+
 	
-	/** Vorgehen beim generieren:
-	 *  
-	 *  1. Alle Azubis ziehen und im Tracker schauen wer diese Woche da ist.
-	 *  
-	 *  2. Küchendienst von vergangener Woche holen, um vergleiche bzw Regeln durchsetzen zu können, dass zum Beispiel nicht jemand
-	 *     zwei mal hintereinander an einem Freitag dran kommt oder auch nicht Freitag und Montag.
-	 *     
-	 *  3. Für Feiertage checken   
+	
+	/** Funktionsweise des Algorithmus:
 	 * 
-	 *  4. Weitere Regeln checken, wie zum Beispiel, wer ist nächste Wochze nicht mehr da und sollte diese Woche nocheinmal dran kommen
+	 *  1. Es werden die Tage Montag-Freitag nacheinander durchgegangen, und versucht eine passende Person zu finden.
+	 *     Passende Person bedeutet: Es wird die Person gesucht, welche die wenigsten Tage Küchendienst hat und auf die alle Regeln zu treffen.
+	 *  
+	 *  2. Ist eine Kombination entstanden, dass keine Person mehr gefunden wird, wird ein Tag zurück gegangen und eine andere passende Person gesucht.
+	 *     Es kann also theoretisch von Donnerstag zurück bis Montag gegangen werden, um alle möglichen Kombinationen zu prüfen.
+	 *  
+	 *  3. Gibt es keine mögliche Kombination um alle Tage zu decken und alle Regeln einzuhalten, wird die Regel mit der niedrigsten 
+	 *     {@link de.dhbw.softwareengineering.azubiplaner.application.rules.BaseRule.class#getPriority()} entfernt und ein neuer Versuch den Plan zu generieren wird gestartet.   
+	 *  
+	 *  Schedule: hier wird ein temporärer Küchendienst angelegt, dieser kann sich durch Schritt 2 variable ändern. Der finale Schedule wird zum Küchendienstplan konvertiert.
+	 *  CandidatesForSpecificDay: Hier werden mögliche Kandidaten für bestimmte Tage gespeichert. z.B. Ist ein Kandidat für Donnerstag gesetzt und später versucht der Algorithmus einen
+	 *  						  neuen Kandidaten für Donnerstag zu finden, da mit einer aktuellen Kombination nicht möglich ist jemanden für Freitag zu finden, ist dieser als Kandidat
+	 *  						  für Donnerstag nicht mehr verfügbar.
+	 *  rulesToApply: Hier können Regeln ausgewählt werden, welche eingehalten werden sollen. Diese müssen das BaseRule Interface implementieren
+	 *  
+	 *  Es wird versicht:
+	 *   - Ausgewogene Verteilung der Kandidaten
+	 *   - Wenn möglich! Einhaltung aller Regeln
+	 *   - Nur Kandidaten welche keine Schule/Uni haben sind zulässig
+	 *   TODO: Für Zukunft: Urlaub checken
 	 * 
 	 * @return
 	 */
-	public KuechendienstEntity generateKuechendienst() {
-		resetCandidates();
+	public KuechendienstEntity generateKuechendienst(List<HelpEntityObject> candidates, List<DayOfWeek> validDays) {
 		
+		resetCandidates(candidates);
+		loadCandidatesForSpecificDay(candidates, validDays);
 		schedule = new Schedule();
 		//Hier muss der von letzter Woche geladen werden
-		mapForDaysCandidates.put(DayOfWeek.MONDAY, mapCanidates());
-		mapForDaysCandidates.put(DayOfWeek.TUESDAY, mapCanidates());
-		mapForDaysCandidates.put(DayOfWeek.WEDNESDAY, mapCanidates());
-		mapForDaysCandidates.put(DayOfWeek.THURSDAY, mapCanidates());
-		mapForDaysCandidates.put(DayOfWeek.FRIDAY, mapCanidates());
+
 		Collections.sort(candidates);
 		Collections.sort(rulesToApply); 
 		
-		int indexDay = DayOfWeek.MONDAY.getValue(); 
+		//Der Erste Tag für den Planer (falls Montag Feiertag ist, Dienstag z.B.)
+		int indexDay = validDays.get(0).getValue(); 
 		
 		while(indexDay != 6) {
-			System.out.println(indexDay);
-			HelpEntityObject heo = findValidCandidateForRules(indexDay);
+			if(!validDays.contains(DayOfWeek.of(indexDay))) {
+				//überspringe Feiertag 
+				indexDay++;
+				continue;
+			}
+			HelpEntityObject heo = findValidCandidateForRules(indexDay, candidates);
 			if(heo == null) {
 				//wenn heo null, kein Azubi für diesen Tag gefunden, Tag eins zurück gehen, neuen Kandidaten finden und weitermachen!
 				//Wenn indexDay 0 ist, entferne Rule mit niedrigster Priorität!
-				if(indexDay == DayOfWeek.MONDAY.getValue()) {
+				if(indexDay == validDays.get(0).getValue()) {
 					rulesToApply.remove(0);
-					return generateKuechendienst();
+					return generateKuechendienst(candidates, validDays);
 				} else {
 					indexDay--;
+					if(!validDays.contains(DayOfWeek.of(indexDay))) {
+						//überspringe Feiertag 
+						//TODO: Nochmal anschauen wegen 2 Feiertage in Folge!
+						indexDay--;
+					}
 					schedule.getCandidateOnDay(DayOfWeek.of(indexDay)).setAmountOfWorkDays(schedule.getCandidateOnDay(DayOfWeek.of(indexDay)).getAmountOfWorkDays()-1);
 					schedule.setCandidateOnDay(null, DayOfWeek.of(indexDay));
 				}
@@ -74,7 +95,7 @@ public class KuechendienstService {
 				
 			} else {
 				heo.setAmountOfWorkDays(heo.getAmountOfWorkDays() + 1);
-				mapForDaysCandidates.get(DayOfWeek.of(indexDay)).remove(heo.getEntity());
+				candidatesForSpecificDay.get(DayOfWeek.of(indexDay)).remove(heo.getEntity());
 				schedule.setCandidateOnDay(heo, DayOfWeek.of(indexDay));
 				Collections.sort(candidates);
 				indexDay++;
@@ -86,12 +107,9 @@ public class KuechendienstService {
 	}
 	
 	
-	
-	public List<HelpEntityObject> getCandidates() {
-		return candidates;
-	}
 
-	private List<EmployeeEntity> mapCanidates() {
+
+	private List<EmployeeEntity> mapCanidates(List<HelpEntityObject> candidates) {
 		List<EmployeeEntity> l = new ArrayList<>();
 		for(HelpEntityObject heo : candidates) {
 			l.add(heo.getEntity());
@@ -99,14 +117,17 @@ public class KuechendienstService {
 		return l;
 	}
 
-	public void setCandidates(List<HelpEntityObject> candidates) {
-		System.out.println("Set Candidates! " + candidates.size());
-		this.candidates = candidates;
-	}
 
-	private void resetCandidates() {
+	private void resetCandidates(List<HelpEntityObject> candidates) {
 		for(HelpEntityObject heo : candidates) {
 			heo.setAmountOfWorkDays(0);
+		}
+	}
+	
+	public void loadCandidatesForSpecificDay(List<HelpEntityObject> candidates, List<DayOfWeek> validDays) {
+		candidatesForSpecificDay = new HashMap<>();
+		for(DayOfWeek dow : validDays) {
+			candidatesForSpecificDay.put(dow, mapCanidates(candidates));
 		}
 	}
 
@@ -123,10 +144,10 @@ public class KuechendienstService {
 	// angewendet werden, also ist dieser ein gültiger Kandidat, wird dieser zurück gegeben ( der counter kann dann erhöht werden)
 	// wurde kein Kandidat gefunden, auf welchen alle Regeln zutreffen wird null zurück gegeben.
 
-	public HelpEntityObject findValidCandidateForRules( int indexDay) {
+	public HelpEntityObject findValidCandidateForRules( int indexDay, List<HelpEntityObject> candidates) {
 		HelpEntityObject foundHelper = null;
 		for(HelpEntityObject ee : candidates) {
-			if(!mapForDaysCandidates.get(DayOfWeek.of(indexDay)).contains(ee.getEntity())) continue;
+			if(!candidatesForSpecificDay.get(DayOfWeek.of(indexDay)).contains(ee.getEntity())) continue;
 			foundHelper = ee;
 			for(BaseRule br : rulesToApply) {
 				if(!br.applyRule(null, schedule, indexDay, foundHelper)) {

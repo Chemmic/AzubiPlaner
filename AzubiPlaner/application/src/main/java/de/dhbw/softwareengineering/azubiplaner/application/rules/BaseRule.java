@@ -1,6 +1,7 @@
 package de.dhbw.softwareengineering.azubiplaner.application.rules;
 
-import de.dhbw.softwareengineering.azubiplaner.application.services.HelpEntityObject;
+import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.HelpEntityObject;
+import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.Schedule;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
 
 public interface BaseRule extends Comparable<BaseRule> {

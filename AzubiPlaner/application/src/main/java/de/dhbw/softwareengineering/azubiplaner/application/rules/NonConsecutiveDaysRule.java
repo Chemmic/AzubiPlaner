@@ -2,7 +2,8 @@ package de.dhbw.softwareengineering.azubiplaner.application.rules;
 
 import java.time.DayOfWeek;
 
-import de.dhbw.softwareengineering.azubiplaner.application.services.HelpEntityObject;
+import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.HelpEntityObject;
+import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.Schedule;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
 
 //2 tage in Folge

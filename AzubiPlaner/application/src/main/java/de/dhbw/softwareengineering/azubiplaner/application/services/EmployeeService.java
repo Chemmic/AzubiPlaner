@@ -1,5 +1,6 @@
 package de.dhbw.softwareengineering.azubiplaner.application.services;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -30,5 +31,14 @@ public class EmployeeService {
 		}
 		return optionalEntity.get();
 		
+	}
+	
+	public EmployeeEntity createEmployee(EmployeeEntity ee) {
+		
+		return employeeRepository.save(ee);
+	}
+	
+	public List<EmployeeEntity> findAll() {
+		return employeeRepository.all();
 	}
 }
