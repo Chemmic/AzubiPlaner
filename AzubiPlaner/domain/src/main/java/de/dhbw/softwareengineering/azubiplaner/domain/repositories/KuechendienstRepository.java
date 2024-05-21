@@ -3,15 +3,14 @@ package de.dhbw.softwareengineering.azubiplaner.domain.repositories;
 import java.util.List;
 import java.util.Optional;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.TauschVorgang;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Kuechendienst;
 
 public interface KuechendienstRepository {
-	KuechendienstEntity save(KuechendienstEntity e);
+	Kuechendienst save(Kuechendienst e);
 	
 	void deleteById(Long id);
 	
-	Optional<KuechendienstEntity> getById(Long id);
+	Optional<Kuechendienst> getById(Long id);
 	
-	List<KuechendienstEntity> all();
+	List<Kuechendienst> all();
 }

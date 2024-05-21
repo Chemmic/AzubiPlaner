@@ -5,11 +5,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.TeamchefEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Teamchef;
 
 @Repository
-public interface SpringTeamchefRepository extends JpaRepository<TeamchefEntity, Long> {
+public interface SpringTeamchefRepository extends JpaRepository<Teamchef, Long> {
 
-	Optional<TeamchefEntity> findFirstByOrderByChangedAtDesc();
+	Optional<Teamchef> findFirstByOrderByChangedAtDesc();
 
 }

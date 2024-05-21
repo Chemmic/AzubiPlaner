@@ -1,9 +1,11 @@
 package de.dhbw.softwareengineering.azubiplaner.plugins.persistence.spring;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Kuechendienst;
 
-public interface SpringKuechendienstRepository extends JpaRepository<KuechendienstEntity, Long> {
+@Repository
+public interface SpringKuechendienstRepository extends JpaRepository<Kuechendienst, Long> {
 
 }

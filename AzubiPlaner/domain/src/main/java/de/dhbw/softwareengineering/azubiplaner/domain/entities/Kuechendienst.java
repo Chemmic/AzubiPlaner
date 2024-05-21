@@ -3,6 +3,7 @@ package de.dhbw.softwareengineering.azubiplaner.domain.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,34 +14,34 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Kuechendienst")
-public class KuechendienstEntity {
+public class Kuechendienst {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@Column
-	private List<KuechendienstDayEntity> dayEntities;
+	private List<KuechendienstDay> dayEntities;
 	
 	@Column
 	private LocalDateTime generatedAt;
 
-	public KuechendienstEntity(List<KuechendienstDayEntity> dayEntities, LocalDateTime generatedAt) {
+	public Kuechendienst(List<KuechendienstDay> dayEntities, LocalDateTime generatedAt) {
 		super();
 		this.dayEntities = dayEntities;
 		this.generatedAt = generatedAt;
 	}
 
-	public KuechendienstEntity() {
+	public Kuechendienst() {
 		super();
 	}
 
-	public List<KuechendienstDayEntity> getDayEntities() {
+	public List<KuechendienstDay> getDayEntities() {
 		return dayEntities;
 	}
 
-	public void setDayEntities(List<KuechendienstDayEntity> dayEntities) {
+	public void setDayEntities(List<KuechendienstDay> dayEntities) {
 		this.dayEntities = dayEntities;
 	}
 
@@ -52,5 +53,7 @@ public class KuechendienstEntity {
 		this.generatedAt = generatedAt;
 	}
 	
-	
+	public Long getId() {
+		return id;
+	}
 }

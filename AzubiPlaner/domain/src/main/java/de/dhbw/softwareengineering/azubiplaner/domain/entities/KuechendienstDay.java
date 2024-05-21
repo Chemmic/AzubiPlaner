@@ -13,9 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 
-// Eventuell VO?
 @Entity
-public class KuechendienstDayEntity {
+public class KuechendienstDay {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +30,7 @@ public class KuechendienstDayEntity {
 	
 	
 	
-	public KuechendienstDayEntity(DayOfWeek dayOfWeek, Angestellter responsibleEmployee) {
+	public KuechendienstDay(DayOfWeek dayOfWeek, Angestellter responsibleEmployee) {
 		super();
 		this.dayOfWeek = dayOfWeek;
 		this.responsibleEmployee = responsibleEmployee;
@@ -39,7 +38,7 @@ public class KuechendienstDayEntity {
 
 
 
-	public KuechendienstDayEntity() {
+	public KuechendienstDay() {
 
 	}
 
@@ -67,5 +66,8 @@ public class KuechendienstDayEntity {
 		this.responsibleEmployee = responsibleEmployee;
 	}
 	
+	public Long getId() {
+		return id;
+	}
 	
 }

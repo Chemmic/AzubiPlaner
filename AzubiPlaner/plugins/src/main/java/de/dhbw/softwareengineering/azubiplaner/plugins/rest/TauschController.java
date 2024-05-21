@@ -56,16 +56,16 @@ public class TauschController {
 	}
 	
 	@PostMapping("/tauschVorgang/accept/{id}")
-	public ResponseEntity<TauschVorgang> acceptSwap(@PathVariable Long id, @RequestBody Long acceptorId) {
-		if(service.acceptSwap(id, acceptorId)) {
+	public ResponseEntity<TauschVorgang> acceptSwap(@PathVariable Long id) {
+		if(service.acceptSwap(id)) {
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.badRequest().build();
 	}
 	
 	@PostMapping("/tauschVorgang/decline/{id}")
-	public ResponseEntity<TauschVorgang> declineSwap(@PathVariable Long id, @RequestBody Long declinerID) {
-		if(service.declineSwap(id, declinerID)) {
+	public ResponseEntity<TauschVorgang> declineSwap(@PathVariable Long id) {
+		if(service.declineSwap(id)) {
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.badRequest().build();

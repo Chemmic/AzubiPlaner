@@ -21,11 +21,11 @@ public class TauschVorgang {
 	
     @ManyToOne
     @JoinColumn(name = "requester_id")
-	private KuechendienstDayEntity requester;
+	private KuechendienstDay requester;
 	
     @ManyToOne
     @JoinColumn(name = "responder_id")
-	private KuechendienstDayEntity responder;
+	private KuechendienstDay responder;
 	
 	@Column
 	@Enumerated(EnumType.STRING)
@@ -37,7 +37,7 @@ public class TauschVorgang {
 	}
 
 
-	public TauschVorgang(KuechendienstDayEntity requester, KuechendienstDayEntity responder, Status status) {
+	public TauschVorgang(KuechendienstDay requester, KuechendienstDay responder, Status status) {
 		super();
 		this.requester = requester;
 		this.responder = responder;
@@ -47,28 +47,28 @@ public class TauschVorgang {
 
 
 
-	public KuechendienstDayEntity getRequester() {
+	public KuechendienstDay getRequester() {
 		return requester;
 	}
 
 
 
 
-	public void setRequester(KuechendienstDayEntity requester) {
+	public void setRequester(KuechendienstDay requester) {
 		this.requester = requester;
 	}
 
 
 
 
-	public KuechendienstDayEntity getResponder() {
+	public KuechendienstDay getResponder() {
 		return responder;
 	}
 
 
 
 
-	public void setResponder(KuechendienstDayEntity responder) {
+	public void setResponder(KuechendienstDay responder) {
 		this.responder = responder;
 	}
 
@@ -91,5 +91,9 @@ public class TauschVorgang {
 
 	public static enum Status {
 		CANCELLED, ACCEPTED, PENDING;
+	}
+	
+	public Long getId() {
+		return id;
 	}
 }

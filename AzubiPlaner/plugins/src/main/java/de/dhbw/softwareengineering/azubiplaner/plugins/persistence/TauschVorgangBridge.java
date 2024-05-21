@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.TauschVorgang;
 import de.dhbw.softwareengineering.azubiplaner.domain.repositories.TauschVorgangRepository;
 import de.dhbw.softwareengineering.azubiplaner.plugins.persistence.spring.SpringTauschVorgangRepository;
-
+@Repository
 public class TauschVorgangBridge implements TauschVorgangRepository{
 	@Autowired
 	public SpringTauschVorgangRepository repo;

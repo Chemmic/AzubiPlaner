@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstDayEntity;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstDay;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Kuechendienst;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.TauschVorgang;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.TauschVorgang.Status;
 import de.dhbw.softwareengineering.azubiplaner.domain.repositories.KuechendienstRepository;
@@ -45,11 +45,11 @@ public class TauschService {
 	
 	public TauschVorgang createSwap(Long requester, Long toSwapWith) throws AccountNotFoundException {
 		
-	    Optional<KuechendienstDayEntity> angestellter1 = kuechendienstService.getcurrentKuechendienst().getDayEntities().stream()
+	    Optional<KuechendienstDay> angestellter1 = kuechendienstService.getcurrentKuechendienst().getDayEntities().stream()
 	            .filter(employee -> employee.getResponsibleEmployee().getId().equals(requester)) 
 	            .findFirst(); 
 	    
-	    Optional<KuechendienstDayEntity> angestellter2 = kuechendienstService.getcurrentKuechendienst().getDayEntities().stream()
+	    Optional<KuechendienstDay> angestellter2 = kuechendienstService.getcurrentKuechendienst().getDayEntities().stream()
 	            .filter(employee -> employee.getResponsibleEmployee().getId().equals(toSwapWith)) 
 	            .findFirst(); 
 				
@@ -60,15 +60,13 @@ public class TauschService {
 		return repo.save(tausch);
 	}
 	
-	public boolean acceptSwap(Long id, Long acceptor) {
+	public boolean acceptSwap(Long id) {
 		Optional<TauschVorgang> tv = repo.getById(id);
 		if(tv.isEmpty()) {
 			return false;
 		}
 		TauschVorgang vorgang = tv.get();
-		if(vorgang.getResponder().getResponsibleEmployee().getId() != acceptor) {
-			return false;
-		}
+
 		
 		if(vorgang.getStatus() != Status.PENDING) {
 			return false;
@@ -79,15 +77,13 @@ public class TauschService {
 		return true;
 	}
 	
-	public boolean declineSwap(Long id, Long acceptor) {
+	public boolean declineSwap(Long id) {
 		Optional<TauschVorgang> tv = repo.getById(id);
 		if(tv.isEmpty()) {
 			return false;
 		}
 		TauschVorgang vorgang = tv.get();
-		if(vorgang.getResponder().getResponsibleEmployee().getId() != acceptor) {
-			return false;
-		}
+
 		
 		if(vorgang.getStatus() != Status.PENDING) {
 			return false;

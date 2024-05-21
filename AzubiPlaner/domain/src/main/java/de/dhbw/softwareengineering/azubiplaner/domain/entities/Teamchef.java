@@ -13,7 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class TeamchefEntity {
+public class Teamchef {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,14 +30,14 @@ public class TeamchefEntity {
     @JoinColumn(name = "assignedBy_id")
 	private Angestellter assignedBy;
 
-	public TeamchefEntity(Angestellter teamchefEmployee, LocalDateTime changedAt,Angestellter assignedBy) throws NotAzubiException {
+	public Teamchef(Angestellter teamchefEmployee, LocalDateTime changedAt,Angestellter assignedBy) throws NotAzubiException {
 		super();
 		setTeamchefEmployee(teamchefEmployee);
 		this.assignedBy = assignedBy;
 		this.changedAt = changedAt;
 	}
 
-	public TeamchefEntity() {
+	public Teamchef() {
 		super();
 	}
 

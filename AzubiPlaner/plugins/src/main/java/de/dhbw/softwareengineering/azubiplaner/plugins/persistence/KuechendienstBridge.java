@@ -4,18 +4,20 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Kuechendienst;
 import de.dhbw.softwareengineering.azubiplaner.domain.repositories.KuechendienstRepository;
 import de.dhbw.softwareengineering.azubiplaner.plugins.persistence.spring.SpringKuechendienstRepository;
 
+@Repository
 public class KuechendienstBridge implements KuechendienstRepository {
 
 	@Autowired
 	SpringKuechendienstRepository repo;
 	
 	@Override
-	public KuechendienstEntity save(KuechendienstEntity e) {
+	public Kuechendienst save(Kuechendienst e) {
 		// TODO Auto-generated method stub
 		return repo.save(e);
 	}
@@ -27,13 +29,13 @@ public class KuechendienstBridge implements KuechendienstRepository {
 	}
 
 	@Override
-	public Optional<KuechendienstEntity> getById(Long id) {
+	public Optional<Kuechendienst> getById(Long id) {
 		// TODO Auto-generated method stub
 		return repo.findById(id);
 	}
 
 	@Override
-	public List<KuechendienstEntity> all() {
+	public List<Kuechendienst> all() {
 		// TODO Auto-generated method stub
 		return repo.findAll();
 	}

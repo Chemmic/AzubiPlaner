@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.TeamchefEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Teamchef;
 import de.dhbw.softwareengineering.azubiplaner.domain.repositories.TeamchefRepository;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -18,12 +18,12 @@ public class TeamchefService {
 	
     
 
-	public TeamchefEntity updateTeamchef(TeamchefEntity newTeamchef) {
+	public Teamchef updateTeamchef(Teamchef newTeamchef) {
 		return teamchefRepository.setTeamchef(newTeamchef);
 	}
 	
-	public TeamchefEntity getCurrentTeamchef() {
-		Optional<TeamchefEntity> teamchefOptional = teamchefRepository.getTeamchef();
+	public Teamchef getCurrentTeamchef() {
+		Optional<Teamchef> teamchefOptional = teamchefRepository.getTeamchef();
 		if(teamchefOptional.isEmpty()) throw new EntityNotFoundException("There is currently no Teamchef set");
 		return teamchefOptional.get();
 	}

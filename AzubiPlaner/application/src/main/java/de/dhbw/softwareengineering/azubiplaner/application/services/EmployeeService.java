@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
 import de.dhbw.softwareengineering.azubiplaner.domain.repositories.AngestelltenRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -34,7 +35,9 @@ public class EmployeeService {
 	}
 	
 	public Angestellter createEmployee(Angestellter ee) {
-		
+		if(employeeRepository.all().stream().anyMatch(t -> t.getUsername().equalsIgnoreCase(ee.getUsername()))) {
+			throw new EntityExistsException();
+		}
 		return employeeRepository.save(ee);
 	}
 	

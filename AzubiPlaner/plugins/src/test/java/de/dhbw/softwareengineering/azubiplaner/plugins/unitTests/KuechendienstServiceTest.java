@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -17,14 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.annotation.Testable;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
 
 import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.HelpEntityObject;
 import de.dhbw.softwareengineering.azubiplaner.application.rules.BaseRule;
@@ -32,8 +25,9 @@ import de.dhbw.softwareengineering.azubiplaner.application.rules.FridayRule;
 import de.dhbw.softwareengineering.azubiplaner.application.rules.NonConsecutiveDaysRule;
 import de.dhbw.softwareengineering.azubiplaner.application.services.KuechendienstService;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstDayEntity;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Kuechendienst;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstDay;
+import de.dhbw.softwareengineering.azubiplaner.domain.values.Email;
 
 @Testable
 @SpringBootTest
@@ -71,10 +65,10 @@ public class KuechendienstServiceTest {
         Angestellter e1 = new Angestellter();
         Angestellter e2 = new Angestellter();
         assertDoesNotThrow(() -> {
-        	e1.setEmail("test1@test.de");
+        	e1.setEmail(new Email("test1@test.de"));
         	e1.setUsername("Test1");
         	
-        	e2.setEmail("test2@test.de");
+        	e2.setEmail(new Email("test2@test.de"));
         	e2.setUsername("Test2");
         });
         
@@ -90,8 +84,8 @@ public class KuechendienstServiceTest {
 
         //Soritieren der Ergebnisse
 
-        KuechendienstEntity result = kuechendienstService.generateKuechendienst(candidates, validDays);
-        List<KuechendienstDayEntity> sortedDayEntities = result.getDayEntities().stream()
+        Kuechendienst result = kuechendienstService.generateKuechendienst(candidates, validDays);
+        List<KuechendienstDay> sortedDayEntities = result.getDayEntities().stream()
                 .sorted(Comparator.comparingInt(dayEntity -> 
                     dayOfWeekOrder.get(dayEntity.getDayOfWeek())))
                 .collect(Collectors.toList());
@@ -120,10 +114,10 @@ public class KuechendienstServiceTest {
         Angestellter e1 = new Angestellter();
         Angestellter e2 = new Angestellter();
         assertDoesNotThrow(() -> {
-        	e1.setEmail("test1@test.de");
+        	e1.setEmail(new Email("test1@test.de"));
         	e1.setUsername("Test1");
         	
-        	e2.setEmail("test2@test.de");
+        	e2.setEmail(new Email("test2@test.de"));
         	e2.setUsername("Test2");
         });
         
@@ -137,8 +131,8 @@ public class KuechendienstServiceTest {
 
         //Soritieren der Ergebnisse
 
-        KuechendienstEntity result = kuechendienstService.generateKuechendienst(candidates, validDays);
-        List<KuechendienstDayEntity> sortedDayEntities = result.getDayEntities().stream()
+        Kuechendienst result = kuechendienstService.generateKuechendienst(candidates, validDays);
+        List<KuechendienstDay> sortedDayEntities = result.getDayEntities().stream()
                 .sorted(Comparator.comparingInt(dayEntity -> 
                     dayOfWeekOrder.get(dayEntity.getDayOfWeek())))
                 .collect(Collectors.toList());

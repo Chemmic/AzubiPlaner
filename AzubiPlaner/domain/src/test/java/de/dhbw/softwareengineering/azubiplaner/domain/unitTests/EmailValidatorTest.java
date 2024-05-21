@@ -10,6 +10,7 @@ import org.junit.platform.commons.annotation.Testable;
 
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
 import de.dhbw.softwareengineering.azubiplaner.domain.exceptions.InvalidEmailException;
+import de.dhbw.softwareengineering.azubiplaner.domain.values.Email;
 
 @Testable
 public class EmailValidatorTest {
@@ -21,10 +22,11 @@ public class EmailValidatorTest {
 		String validEmail = "test@example.com";
 		
 		assertDoesNotThrow(() -> {
-			employee.setEmail(validEmail);
+			Email email = new Email(validEmail);
+			employee.setEmail(email);
 		});
 	
-		assertEquals(validEmail, employee.getEmail());
+		assertEquals(validEmail, employee.getEmail().getMail());
 		
 	}
 	
@@ -34,7 +36,8 @@ public class EmailValidatorTest {
 		String invalidEmail = "testexample.com";
 		
         assertThrows(InvalidEmailException.class, () -> {
-            employee.setEmail(invalidEmail);
+        	Email email = new Email(invalidEmail);
+            employee.setEmail(email);
         });
 	
 		assertNull(employee.getEmail());
@@ -46,7 +49,8 @@ public class EmailValidatorTest {
 		String invalidEmail = "test@example..com";
 		
         assertThrows(InvalidEmailException.class, () -> {
-            employee.setEmail(invalidEmail);
+        	Email email = new Email(invalidEmail);
+            employee.setEmail(email);
         });
 	
 		assertNull(employee.getEmail());
@@ -58,7 +62,8 @@ public class EmailValidatorTest {
 		String invalidEmail = "thisIsJustAsimpleTestToShowMirkoThatTheLocalPartIsWaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayToLongAndAnErrorShouldbeenthrown@test.de";
 		
         assertThrows(InvalidEmailException.class, () -> {
-            employee.setEmail(invalidEmail);
+        	Email email = new Email(invalidEmail);
+            employee.setEmail(email);
         });
 	
 		assertNull(employee.getEmail());
@@ -70,7 +75,8 @@ public class EmailValidatorTest {
 		String invalidEmail = "test.@test.de";
 		
         assertThrows(InvalidEmailException.class, () -> {
-            employee.setEmail(invalidEmail);
+        	Email email = new Email(invalidEmail);
+            employee.setEmail(email);
         });
 	
 		assertNull(employee.getEmail());

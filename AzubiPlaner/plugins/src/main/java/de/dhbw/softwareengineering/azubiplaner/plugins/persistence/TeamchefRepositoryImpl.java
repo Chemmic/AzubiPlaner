@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.TeamchefEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Teamchef;
 import de.dhbw.softwareengineering.azubiplaner.domain.repositories.TeamchefRepository;
 import de.dhbw.softwareengineering.azubiplaner.plugins.persistence.spring.SpringTeamchefRepository;
 
@@ -16,12 +16,12 @@ public class TeamchefRepositoryImpl implements TeamchefRepository {
 	SpringTeamchefRepository springTeamchefRepository;
 	
 	@Override
-	public TeamchefEntity setTeamchef(TeamchefEntity teamchef) {
+	public Teamchef setTeamchef(Teamchef teamchef) {
 		return springTeamchefRepository.save(teamchef);
 	}
 
 	@Override
-	public Optional<TeamchefEntity> getTeamchef() {
+	public Optional<Teamchef> getTeamchef() {
 		return springTeamchefRepository.findFirstByOrderByChangedAtDesc();
 	}
 

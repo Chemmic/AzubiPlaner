@@ -17,8 +17,8 @@ import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.HelpEntit
 import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.Schedule;
 import de.dhbw.softwareengineering.azubiplaner.application.rules.BaseRule;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstDayEntity;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstDay;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Kuechendienst;
 import de.dhbw.softwareengineering.azubiplaner.domain.repositories.KuechendienstRepository;
 
 @Service
@@ -64,7 +64,7 @@ public class KuechendienstService {
 	 * 
 	 * @return
 	 */
-	public KuechendienstEntity generateKuechendienst(List<HelpEntityObject> candidates, List<DayOfWeek> validDays) {
+	public Kuechendienst generateKuechendienst(List<HelpEntityObject> candidates, List<DayOfWeek> validDays) {
 		
 		resetCandidates(candidates);
 		loadCandidatesForSpecificDay(candidates, validDays);
@@ -117,16 +117,20 @@ public class KuechendienstService {
 	}
 	
 	
-	public KuechendienstEntity createKuechendienst(List<HelpEntityObject> candidates, List<DayOfWeek> validDays) {
-		KuechendienstEntity ke = generateKuechendienst(candidates, validDays);
+	public Kuechendienst createKuechendienst(List<HelpEntityObject> candidates, List<DayOfWeek> validDays) {
+		Kuechendienst ke = generateKuechendienst(candidates, validDays);
 		return repo.save(ke);
 	}
 	
-	public KuechendienstEntity getcurrentKuechendienst() {
-	    Optional<KuechendienstEntity> currentService = repo.all().stream()
-	            .max(Comparator.comparing(KuechendienstEntity::getGeneratedAt));
+	public Kuechendienst getcurrentKuechendienst() {
+	    Optional<Kuechendienst> currentService = repo.all().stream()
+	            .max(Comparator.comparing(Kuechendienst::getGeneratedAt));
 
 	        return currentService.orElse(null); 
+	}
+	
+	public void deleteKuechendienst(Long id) {
+		repo.deleteById(id); 
 	}
 
 	private List<Angestellter> mapCanidates(List<HelpEntityObject> candidates) {
@@ -152,13 +156,13 @@ public class KuechendienstService {
 	}
 
 	//HIER FACTORY EINBAUEN?
-	public KuechendienstEntity scheduleToKuechendienstEntity(Schedule schedule) {
-		List<KuechendienstDayEntity> dayEntries = new ArrayList<>();
+	public Kuechendienst scheduleToKuechendienstEntity(Schedule schedule) {
+		List<KuechendienstDay> dayEntries = new ArrayList<>();
 		for (Map.Entry<DayOfWeek, HelpEntityObject> entry : schedule.getMap().entrySet()) {
-			dayEntries.add(new KuechendienstDayEntity(entry.getKey(), entry.getValue().getEntity()));
+			dayEntries.add(new KuechendienstDay(entry.getKey(), entry.getValue().getEntity()));
 		}
 		
-		return new KuechendienstEntity(dayEntries, LocalDateTime.now());
+		return new Kuechendienst(dayEntries, LocalDateTime.now());
 	}
 	//Diese Methode geht, (VORHER SORTIEREN DAMIT KANDIDAT MIT DEN WENIGSTEN KÜCHENDIENST EINSETZTEN ALS ERSTER GECHECKT WIRD!), alle Kandidaten durch und versucht die Regeln anzuwenden, können alle Regelen bei einem Kandidaten 
 	// angewendet werden, also ist dieser ein gültiger Kandidat, wird dieser zurück gegeben ( der counter kann dann erhöht werden)
