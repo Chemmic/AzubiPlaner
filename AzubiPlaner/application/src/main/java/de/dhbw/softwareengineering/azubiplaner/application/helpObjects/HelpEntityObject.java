@@ -1,10 +1,10 @@
 package de.dhbw.softwareengineering.azubiplaner.application.helpObjects;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
 
 public class HelpEntityObject implements Comparable<HelpEntityObject>{
 
-	private EmployeeEntity entity;
+	private Angestellter entity;
 	
 	private Integer amountOfWorkDays = 0;
 
@@ -14,17 +14,17 @@ public class HelpEntityObject implements Comparable<HelpEntityObject>{
 	}
 	
 	
-	public HelpEntityObject(EmployeeEntity entity) {
+	public HelpEntityObject(Angestellter entity) {
 		super();
 		this.entity = entity;
 	}
 
 
-	public EmployeeEntity getEntity() {
+	public Angestellter getEntity() {
 		return entity;
 	}
 
-	public void setEntity(EmployeeEntity entity) {
+	public void setEntity(Angestellter entity) {
 		this.entity = entity;
 	}
 

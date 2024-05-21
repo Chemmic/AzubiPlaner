@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.HelpEntityObject;
 import de.dhbw.softwareengineering.azubiplaner.application.services.HolidayService;
 import de.dhbw.softwareengineering.azubiplaner.application.services.KuechendienstService;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity.Role;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter.Role;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
 import de.dhbw.softwareengineering.azubiplaner.domain.exceptions.InvalidEmailException;
 
@@ -36,7 +36,7 @@ public class TestController {
 	public KuechendienstEntity test2() {
 		KuechendienstEntity e;
 		try {
-			return kuechendienstService.generateKuechendienst(Arrays.asList(new HelpEntityObject(new EmployeeEntity("Chemmic", Role.AZUBI, "2", "Matteo.staar@gmx.de")), new HelpEntityObject(new EmployeeEntity("Chemmic2", Role.AZUBI, "23", "Matteo.staa3r@gmx.de"))),holidayService.getValidDaysForWeek(LocalDateTime.now()));
+			return kuechendienstService.generateKuechendienst(Arrays.asList(new HelpEntityObject(new Angestellter("Chemmic", Role.AZUBI, "2", "Matteo.staar@gmx.de")), new HelpEntityObject(new Angestellter("Chemmic2", Role.AZUBI, "23", "Matteo.staa3r@gmx.de"))),holidayService.getValidDaysForWeek(LocalDateTime.now()));
 		} catch (InvalidEmailException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

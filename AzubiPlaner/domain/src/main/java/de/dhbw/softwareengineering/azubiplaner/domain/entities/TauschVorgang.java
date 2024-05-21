@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "SwapRequest")
-public class SwapRequestEntity {
+public class TauschVorgang {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,12 +32,12 @@ public class SwapRequestEntity {
 	private Status status;
 	
 	
-	public SwapRequestEntity() {
+	public TauschVorgang() {
 		super();
 	}
 
 
-	public SwapRequestEntity(KuechendienstDayEntity requester, KuechendienstDayEntity responder, Status status) {
+	public TauschVorgang(KuechendienstDayEntity requester, KuechendienstDayEntity responder, Status status) {
 		super();
 		this.requester = requester;
 		this.responder = responder;

@@ -27,11 +27,11 @@ public class KuechendienstDayEntity {
 	
     @ManyToOne
     @JoinColumn(name = "responsibleEmployee_id")
-	private EmployeeEntity responsibleEmployee;
+	private Angestellter responsibleEmployee;
 	
 	
 	
-	public KuechendienstDayEntity(DayOfWeek dayOfWeek, EmployeeEntity responsibleEmployee) {
+	public KuechendienstDayEntity(DayOfWeek dayOfWeek, Angestellter responsibleEmployee) {
 		super();
 		this.dayOfWeek = dayOfWeek;
 		this.responsibleEmployee = responsibleEmployee;
@@ -57,13 +57,13 @@ public class KuechendienstDayEntity {
 
 
 
-	public EmployeeEntity getResponsibleEmployee() {
+	public Angestellter getResponsibleEmployee() {
 		return responsibleEmployee;
 	}
 
 
 
-	public void setResponsibleEmployee(EmployeeEntity responsibleEmployee) {
+	public void setResponsibleEmployee(Angestellter responsibleEmployee) {
 		this.responsibleEmployee = responsibleEmployee;
 	}
 	

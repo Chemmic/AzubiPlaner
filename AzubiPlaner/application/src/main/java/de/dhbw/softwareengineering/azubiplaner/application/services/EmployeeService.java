@@ -7,15 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
-import de.dhbw.softwareengineering.azubiplaner.domain.repositories.EmployeeRepository;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
+import de.dhbw.softwareengineering.azubiplaner.domain.repositories.AngestelltenRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EmployeeService {
 
 	@Autowired
-	EmployeeRepository employeeRepository;
+	AngestelltenRepository employeeRepository;
 	
 	
 	public void deleteById(Long id) {
@@ -23,9 +23,9 @@ public class EmployeeService {
 		employeeRepository.deleteById(id);
 	}
 	
-	public EmployeeEntity getById(Long id) {
+	public Angestellter getById(Long id) {
 		Objects.requireNonNull(id);
-		Optional<EmployeeEntity> optionalEntity = employeeRepository.getById(id);
+		Optional<Angestellter> optionalEntity = employeeRepository.getById(id);
 		if(optionalEntity.isEmpty()) {
 			throw new EntityNotFoundException("An Employee with id " + id + " does not exist!");
 		}
@@ -33,12 +33,12 @@ public class EmployeeService {
 		
 	}
 	
-	public EmployeeEntity createEmployee(EmployeeEntity ee) {
+	public Angestellter createEmployee(Angestellter ee) {
 		
 		return employeeRepository.save(ee);
 	}
 	
-	public List<EmployeeEntity> findAll() {
+	public List<Angestellter> findAll() {
 		return employeeRepository.all();
 	}
 }

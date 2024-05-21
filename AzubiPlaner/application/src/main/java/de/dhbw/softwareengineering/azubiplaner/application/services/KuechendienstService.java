@@ -3,12 +3,12 @@ package de.dhbw.softwareengineering.azubiplaner.application.services;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +16,17 @@ import org.springframework.stereotype.Service;
 import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.HelpEntityObject;
 import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.Schedule;
 import de.dhbw.softwareengineering.azubiplaner.application.rules.BaseRule;
-import de.dhbw.softwareengineering.azubiplaner.application.rules.FridayRule;
-import de.dhbw.softwareengineering.azubiplaner.application.rules.NonConsecutiveDaysRule;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstDayEntity;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.repositories.KuechendienstRepository;
 
 @Service
 public class KuechendienstService {
 
+	@Autowired
+	KuechendienstRepository repo;
+	
     @Autowired
     public KuechendienstService(ArrayList<BaseRule> rulesToApply) {
         this.rulesToApply = rulesToApply;
@@ -32,7 +34,7 @@ public class KuechendienstService {
 
     private ArrayList<BaseRule> rulesToApply;
 	
-	Map<DayOfWeek, List<EmployeeEntity>> candidatesForSpecificDay;
+	Map<DayOfWeek, List<Angestellter>> candidatesForSpecificDay;
 	Schedule schedule;
 
 	
@@ -115,10 +117,20 @@ public class KuechendienstService {
 	}
 	
 	
+	public KuechendienstEntity createKuechendienst(List<HelpEntityObject> candidates, List<DayOfWeek> validDays) {
+		KuechendienstEntity ke = generateKuechendienst(candidates, validDays);
+		return repo.save(ke);
+	}
+	
+	public KuechendienstEntity getcurrentKuechendienst() {
+	    Optional<KuechendienstEntity> currentService = repo.all().stream()
+	            .max(Comparator.comparing(KuechendienstEntity::getGeneratedAt));
 
+	        return currentService.orElse(null); 
+	}
 
-	private List<EmployeeEntity> mapCanidates(List<HelpEntityObject> candidates) {
-		List<EmployeeEntity> l = new ArrayList<>();
+	private List<Angestellter> mapCanidates(List<HelpEntityObject> candidates) {
+		List<Angestellter> l = new ArrayList<>();
 		for(HelpEntityObject heo : candidates) {
 			l.add(heo.getEntity());
 		}

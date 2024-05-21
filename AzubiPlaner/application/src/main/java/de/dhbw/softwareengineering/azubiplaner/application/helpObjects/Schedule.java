@@ -4,7 +4,7 @@ import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
 
 public class Schedule {
 

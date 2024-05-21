@@ -2,7 +2,7 @@ package de.dhbw.softwareengineering.azubiplaner.domain.entities;
 
 import java.time.LocalDateTime;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity.Role;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter.Role;
 import de.dhbw.softwareengineering.azubiplaner.domain.exceptions.NotAzubiException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,16 +21,16 @@ public class TeamchefEntity {
 
     @ManyToOne
     @JoinColumn(name = "teamchefEmployee_id")
-	private EmployeeEntity teamchefEmployee;
+	private Angestellter teamchefEmployee;
 	
 	@Column
 	private LocalDateTime changedAt;
 
     @ManyToOne
     @JoinColumn(name = "assignedBy_id")
-	private EmployeeEntity assignedBy;
+	private Angestellter assignedBy;
 
-	public TeamchefEntity(EmployeeEntity teamchefEmployee, LocalDateTime changedAt,EmployeeEntity assignedBy) throws NotAzubiException {
+	public TeamchefEntity(Angestellter teamchefEmployee, LocalDateTime changedAt,Angestellter assignedBy) throws NotAzubiException {
 		super();
 		setTeamchefEmployee(teamchefEmployee);
 		this.assignedBy = assignedBy;
@@ -41,7 +41,7 @@ public class TeamchefEntity {
 		super();
 	}
 
-	public EmployeeEntity getTeamchefEmployee() {
+	public Angestellter getTeamchefEmployee() {
 		return teamchefEmployee;
 	}
 
@@ -54,11 +54,11 @@ public class TeamchefEntity {
 		this.changedAt = changedAt;
 	}
 
-	public EmployeeEntity getAssignedBy() {
+	public Angestellter getAssignedBy() {
 		return assignedBy;
 	}
 
-	public void setAssignedBy(EmployeeEntity assignedBy) {
+	public void setAssignedBy(Angestellter assignedBy) {
 		this.assignedBy = assignedBy;
 	}
 
@@ -67,7 +67,7 @@ public class TeamchefEntity {
 	 * @param teamchefEmployee
 	 * @throws NotAzubiException
 	 */
-	public void setTeamchefEmployee(EmployeeEntity teamchefEmployee) throws NotAzubiException {
+	public void setTeamchefEmployee(Angestellter teamchefEmployee) throws NotAzubiException {
 		if(teamchefEmployee.getRole() == null || teamchefEmployee.getRole() != Role.AZUBI) throw new NotAzubiException(teamchefEmployee);
 		this.teamchefEmployee = teamchefEmployee;
 	}

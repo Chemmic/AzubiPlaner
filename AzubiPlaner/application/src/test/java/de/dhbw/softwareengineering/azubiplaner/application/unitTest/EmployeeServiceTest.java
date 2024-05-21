@@ -16,19 +16,19 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import de.dhbw.softwareengineering.azubiplaner.application.services.EmployeeService;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity.Role;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter.Role;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.TeamchefEntity;
 import de.dhbw.softwareengineering.azubiplaner.domain.exceptions.InvalidEmailException;
 import de.dhbw.softwareengineering.azubiplaner.domain.exceptions.NotAzubiException;
-import de.dhbw.softwareengineering.azubiplaner.domain.repositories.EmployeeRepository;
+import de.dhbw.softwareengineering.azubiplaner.domain.repositories.AngestelltenRepository;
 
 @Testable
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
 
 		@Mock
-		private EmployeeRepository employeeRepository;
+		private AngestelltenRepository employeeRepository;
 		
 		@InjectMocks
 		private EmployeeService employeeService;
@@ -36,9 +36,9 @@ public class EmployeeServiceTest {
 		@Test
 		public void isValidTeamchef() {
 			assertDoesNotThrow(() -> {
-				Optional<EmployeeEntity> mockEmployee = Optional.of(new EmployeeEntity("Mirko", Role.AZUBI, "one", "mirko.dost@dost.mirko"));
+				Optional<Angestellter> mockEmployee = Optional.of(new Angestellter("Mirko", Role.AZUBI, "one", "mirko.dost@dost.mirko"));
 				when(employeeRepository.getById(1l)).thenReturn(mockEmployee);
-				EmployeeEntity emp = employeeService.getById(1l);
+				Angestellter emp = employeeService.getById(1l);
 				//Checken ob richtiges entity beim Service zurückgeliefert wird
 				assertEquals(mockEmployee.get().getRole(), emp.getRole());
 				assertEquals(mockEmployee.get().getEmail(), emp.getEmail());
@@ -55,9 +55,9 @@ public class EmployeeServiceTest {
 		@Test
 		public void isinValidTeamchef() {
 			assertDoesNotThrow(() -> {
-				Optional<EmployeeEntity> mockEmployee = Optional.of(new EmployeeEntity("Mirko", Role.ADMIN, "one", "mirko.dost@dost.mirko"));
+				Optional<Angestellter> mockEmployee = Optional.of(new Angestellter("Mirko", Role.ADMIN, "one", "mirko.dost@dost.mirko"));
 				when(employeeRepository.getById(1l)).thenReturn(mockEmployee);
-				EmployeeEntity emp = employeeService.getById(1l);
+				Angestellter emp = employeeService.getById(1l);
 				//Checken ob richtiges entity beim Service zurückgeliefert wird
 				assertEquals(mockEmployee.get().getRole(), emp.getRole());
 				assertEquals(mockEmployee.get().getEmail(), emp.getEmail());

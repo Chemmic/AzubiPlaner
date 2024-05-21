@@ -6,13 +6,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
-import de.dhbw.softwareengineering.azubiplaner.domain.repositories.EmployeeRepository;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
+import de.dhbw.softwareengineering.azubiplaner.domain.repositories.AngestelltenRepository;
 import de.dhbw.softwareengineering.azubiplaner.plugins.persistence.spring.SpringEmployeeRepository;
 
 
 @Repository
-public class EmployeeRepositoryImpl  implements EmployeeRepository  {
+public class EmployeeRepositoryImpl  implements AngestelltenRepository  {
 
 	@Autowired
 	SpringEmployeeRepository springEmployeeRepository;
@@ -23,18 +23,18 @@ public class EmployeeRepositoryImpl  implements EmployeeRepository  {
 	}
 
 	@Override
-	public Optional<EmployeeEntity> getById(Long id) {
+	public Optional<Angestellter> getById(Long id) {
 		// TODO Auto-generated method stub
 		return springEmployeeRepository.findById(id);
 	}
 
 	@Override
-	public EmployeeEntity save(EmployeeEntity e) {
+	public Angestellter save(Angestellter e) {
 		return springEmployeeRepository.save(e);
 	}
 
 	@Override
-	public List<EmployeeEntity> all() {
+	public List<Angestellter> all() {
 		// TODO Auto-generated method stub
 		return springEmployeeRepository.findAll();
 	}

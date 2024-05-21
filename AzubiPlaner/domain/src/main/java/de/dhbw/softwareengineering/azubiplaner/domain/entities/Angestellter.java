@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Employee")
-public class EmployeeEntity {
+public class Angestellter {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,11 +33,11 @@ public class EmployeeEntity {
 	@Column
 	private String email;
 	
-	public EmployeeEntity() {
+	public Angestellter() {
 		
 	}
 	
-	public EmployeeEntity(String username, Role role, String tuleapId, String email) throws InvalidEmailException {
+	public Angestellter(String username, Role role, String tuleapId, String email) throws InvalidEmailException {
 		this.username = username;
 		this.role = role;
 		this.tuleapId = tuleapId;

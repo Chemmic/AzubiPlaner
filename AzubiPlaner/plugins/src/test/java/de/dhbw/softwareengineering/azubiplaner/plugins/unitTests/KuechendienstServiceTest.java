@@ -31,7 +31,7 @@ import de.dhbw.softwareengineering.azubiplaner.application.rules.BaseRule;
 import de.dhbw.softwareengineering.azubiplaner.application.rules.FridayRule;
 import de.dhbw.softwareengineering.azubiplaner.application.rules.NonConsecutiveDaysRule;
 import de.dhbw.softwareengineering.azubiplaner.application.services.KuechendienstService;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstDayEntity;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
 
@@ -68,8 +68,8 @@ public class KuechendienstServiceTest {
         list.add(new NonConsecutiveDaysRule());
         list.add(new FridayRule());
         kuechendienstService = new KuechendienstService(list);
-        EmployeeEntity e1 = new EmployeeEntity();
-        EmployeeEntity e2 = new EmployeeEntity();
+        Angestellter e1 = new Angestellter();
+        Angestellter e2 = new Angestellter();
         assertDoesNotThrow(() -> {
         	e1.setEmail("test1@test.de");
         	e1.setUsername("Test1");
@@ -117,8 +117,8 @@ public class KuechendienstServiceTest {
     public void testGenerateKuechendienstWithNoRules() {
     	 kuechendienstService = new KuechendienstService(new ArrayList<>());
         List<HelpEntityObject> candidates = new ArrayList<>();
-        EmployeeEntity e1 = new EmployeeEntity();
-        EmployeeEntity e2 = new EmployeeEntity();
+        Angestellter e1 = new Angestellter();
+        Angestellter e2 = new Angestellter();
         assertDoesNotThrow(() -> {
         	e1.setEmail("test1@test.de");
         	e1.setUsername("Test1");

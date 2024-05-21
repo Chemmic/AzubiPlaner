@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.dhbw.softwareengineering.azubiplaner.application.services.EmployeeService;
-import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
 
 @RestController
 public class EmployeeController {
@@ -20,17 +20,17 @@ public class EmployeeController {
 	private EmployeeService service;
 	
 	@PostMapping("/employee")
-	public EmployeeEntity createEmployee(@RequestBody EmployeeEntity body) {
+	public Angestellter createEmployee(@RequestBody Angestellter body) {
 		return service.createEmployee(body);
 	}
 	
 	@GetMapping("/employee/all")
-	public List<EmployeeEntity> getAllEmployees() {
+	public List<Angestellter> getAllEmployees() {
 		return service.findAll();
 	}
 	
 	@GetMapping("/employee/{id}")
-	public EmployeeEntity findById(@PathVariable Long id) {
+	public Angestellter findById(@PathVariable Long id) {
 		return service.getById(id);
 	}
 }
