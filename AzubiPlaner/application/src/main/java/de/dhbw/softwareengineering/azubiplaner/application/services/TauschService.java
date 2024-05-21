@@ -45,21 +45,20 @@ public class TauschService {
 	
 	public TauschVorgang createSwap(Long requester, Long toSwapWith) throws AccountNotFoundException {
 		
-	    Optional<KuechendienstDay> angestellter1 = kuechendienstService.getcurrentKuechendienst().getDayEntities().stream()
-	            .filter(employee -> employee.getResponsibleEmployee().getId().equals(requester)) 
-	            .findFirst(); 
-	    
-	    Optional<KuechendienstDay> angestellter2 = kuechendienstService.getcurrentKuechendienst().getDayEntities().stream()
-	            .filter(employee -> employee.getResponsibleEmployee().getId().equals(toSwapWith)) 
-	            .findFirst(); 
-				
-		if(angestellter1.isEmpty() || angestellter2.isEmpty()) {
-			throw new AccountNotFoundException();
-		}
-		TauschVorgang tausch = new TauschVorgang(angestellter1.get(), angestellter2.get(), Status.PENDING);
+		 KuechendienstDay angestellter1 = getKuechendienstDayForAngestellter(requester);
+		 KuechendienstDay angestellter2 = getKuechendienstDayForAngestellter(toSwapWith);
+
+		TauschVorgang tausch = new TauschVorgang(angestellter1, angestellter2, Status.PENDING);
 		return repo.save(tausch);
 	}
 	
+    private KuechendienstDay getKuechendienstDayForAngestellter(Long angestellterId) {
+        return kuechendienstService.getcurrentKuechendienst().getDayEntities().stream()
+            .filter(employee -> employee.getResponsibleEmployee().getId().equals(angestellterId))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Angestellter wurde nicht im Kuechendienst gefunden!"));
+    }
+    
 	public boolean acceptSwap(Long id) {
 		Optional<TauschVorgang> tv = repo.getById(id);
 		if(tv.isEmpty()) {
