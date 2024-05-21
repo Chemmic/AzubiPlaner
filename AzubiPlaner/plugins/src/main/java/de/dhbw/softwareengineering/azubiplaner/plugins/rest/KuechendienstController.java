@@ -1,8 +1,9 @@
 package de.dhbw.softwareengineering.azubiplaner.plugins.rest;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,6 @@ import de.dhbw.softwareengineering.azubiplaner.application.services.Kuechendiens
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.Angestellter.Role;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.Kuechendienst;
-import de.dhbw.softwareengineering.azubiplaner.domain.exceptions.InvalidEmailException;
 @RestController
 public class KuechendienstController {
 
@@ -38,7 +38,7 @@ public class KuechendienstController {
 		List<HelpEntityObject> helpObjects = new ArrayList<>();
 		azubis.forEach(a -> helpObjects.add(new HelpEntityObject(a)));
 		
-		return kuechendienstService.createKuechendienst(helpObjects, holidayService.getValidDaysForWeek(LocalDateTime.now()));
+		return kuechendienstService.createKuechendienst(helpObjects, holidayService.getValidDaysForWeek(LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))));
     }
 	
 	@GetMapping("/kuechendienst")

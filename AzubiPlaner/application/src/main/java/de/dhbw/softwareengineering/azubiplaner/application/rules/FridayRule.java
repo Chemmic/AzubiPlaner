@@ -6,20 +6,15 @@ import de.dhbw.softwareengineering.azubiplaner.domain.entities.Kuechendienst;
 
 public class FridayRule implements BaseRule {
 
-
-
-
 	@Override
 	public int getPriority() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
 	@Override
 	public boolean applyRule(Kuechendienst lastWeek, Schedule current, int indexDay,
 			HelpEntityObject potentionalCandidate) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
