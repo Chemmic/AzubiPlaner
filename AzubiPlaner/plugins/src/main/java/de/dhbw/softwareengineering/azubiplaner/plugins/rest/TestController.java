@@ -16,6 +16,7 @@ import de.dhbw.softwareengineering.azubiplaner.application.services.Kuechendiens
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.EmployeeEntity.Role;
 import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEntity;
+import de.dhbw.softwareengineering.azubiplaner.domain.exceptions.InvalidEmailException;
 
 @RestController
 public class TestController {
@@ -33,8 +34,14 @@ public class TestController {
 	
 	@GetMapping("/test")
 	public KuechendienstEntity test2() {
-		KuechendienstEntity e = kuechendienstService.generateKuechendienst(Arrays.asList(new HelpEntityObject(new EmployeeEntity("Chemmic", Role.AZUBI, "2", "Matteo.staar@gmx.de"))),holidayService.getValidDaysForWeek(LocalDateTime.now()));
-        return e;
+		KuechendienstEntity e;
+		try {
+			return kuechendienstService.generateKuechendienst(Arrays.asList(new HelpEntityObject(new EmployeeEntity("Chemmic", Role.AZUBI, "2", "Matteo.staar@gmx.de"))),holidayService.getValidDaysForWeek(LocalDateTime.now()));
+		} catch (InvalidEmailException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        return null;
     }
 	
 	@GetMapping("/testfeiertag")

@@ -2,6 +2,7 @@ package de.dhbw.softwareengineering.azubiplaner.domain.entities;
 
 import java.util.regex.Pattern;
 
+import de.dhbw.softwareengineering.azubiplaner.domain.exceptions.InvalidEmailException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -36,7 +37,7 @@ public class EmployeeEntity {
 		
 	}
 	
-	public EmployeeEntity(String username, Role role, String tuleapId, String email) {
+	public EmployeeEntity(String username, Role role, String tuleapId, String email) throws InvalidEmailException {
 		this.username = username;
 		this.role = role;
 		this.tuleapId = tuleapId;
@@ -49,7 +50,7 @@ public class EmployeeEntity {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(String email) throws InvalidEmailException {
 		/*
 		 * Domain Service: Checking for valid Email
 		 * allows numeric values from 0 to 9.
@@ -59,12 +60,12 @@ public class EmployeeEntity {
 		   Consecutive dots aren’t allowed.
 		   For the local part, a maximum of 64 characters are allowed.
 		 */
-		if(Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$")
+		if(Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", Pattern.CASE_INSENSITIVE)
 				.matcher(email)
 				.matches()) {
 			this.email = email;
 		} else {
-			
+			throw new InvalidEmailException(email);
 		}
 	}
 
