@@ -36,7 +36,7 @@ public class TestController {
 	public KuechendienstEntity test2() {
 		KuechendienstEntity e;
 		try {
-			return kuechendienstService.generateKuechendienst(Arrays.asList(new HelpEntityObject(new EmployeeEntity("Chemmic", Role.AZUBI, "2", "Matteo.staar@gmx.de"))),holidayService.getValidDaysForWeek(LocalDateTime.now()));
+			return kuechendienstService.generateKuechendienst(Arrays.asList(new HelpEntityObject(new EmployeeEntity("Chemmic", Role.AZUBI, "2", "Matteo.staar@gmx.de")), new HelpEntityObject(new EmployeeEntity("Chemmic2", Role.AZUBI, "23", "Matteo.staa3r@gmx.de"))),holidayService.getValidDaysForWeek(LocalDateTime.now()));
 		} catch (InvalidEmailException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

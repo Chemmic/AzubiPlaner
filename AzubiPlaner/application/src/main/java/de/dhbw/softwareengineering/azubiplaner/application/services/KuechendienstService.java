@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.dhbw.softwareengineering.azubiplaner.application.helpObjects.HelpEntityObject;
@@ -24,7 +25,13 @@ import de.dhbw.softwareengineering.azubiplaner.domain.entities.KuechendienstEnti
 @Service
 public class KuechendienstService {
 
-	List<BaseRule> rulesToApply = new ArrayList<>( Arrays.asList(new NonConsecutiveDaysRule(), new FridayRule()));
+    @Autowired
+    public KuechendienstService(ArrayList<BaseRule> rulesToApply) {
+        this.rulesToApply = rulesToApply;
+    }
+
+    private ArrayList<BaseRule> rulesToApply;
+	
 	Map<DayOfWeek, List<EmployeeEntity>> candidatesForSpecificDay;
 	Schedule schedule;
 
@@ -63,8 +70,9 @@ public class KuechendienstService {
 		//Hier muss der von letzter Woche geladen werden
 
 		Collections.sort(candidates);
-		Collections.sort(rulesToApply); 
-		
+		if(rulesToApply != null) {
+			Collections.sort(rulesToApply); 
+		}
 		//Der Erste Tag für den Planer (falls Montag Feiertag ist, Dienstag z.B.)
 		int indexDay = validDays.get(0).getValue(); 
 		
