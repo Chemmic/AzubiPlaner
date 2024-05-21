@@ -62,6 +62,11 @@ public class TeamchefEntity {
 		this.assignedBy = assignedBy;
 	}
 
+	/** Domain Service der überprüft, ob der gesetzte Teamchef auch wirklich ein Azubi ist
+	 * 
+	 * @param teamchefEmployee
+	 * @throws NotAzubiException
+	 */
 	public void setTeamchefEmployee(EmployeeEntity teamchefEmployee) throws NotAzubiException {
 		if(teamchefEmployee.getRole() == null || teamchefEmployee.getRole() != Role.AZUBI) throw new NotAzubiException(teamchefEmployee);
 		this.teamchefEmployee = teamchefEmployee;
